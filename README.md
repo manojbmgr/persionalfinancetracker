@@ -190,5 +190,7 @@ The application follows a component-based architecture using React's modern feat
 - Context testing
 - Custom hooks testing
 - Integration testing
+### Screenshots
+  ![Dashboard](./screenshots/dashboard.png)
 ### Vercel URL
 [https://persionalfinancetracker-h3i76p34q-manojbmgr-gmailcoms-projects.vercel.app/](https://persionalfinancetracker-h3i76p34q-manojbmgr-gmailcoms-projects.vercel.app/)
