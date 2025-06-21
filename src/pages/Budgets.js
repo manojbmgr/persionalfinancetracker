@@ -94,7 +94,7 @@ const Budgets = () => {
             .reduce((sum, t) => sum + t.amount, 0);
 
           return (
-            <Grid item xs={12} md={6} key={category}>
+            <Grid item size={{ xs: 12, md: 6 }} key={category}>
               <Paper sx={{ p: 2 }}>
                 <Box
                   sx={{

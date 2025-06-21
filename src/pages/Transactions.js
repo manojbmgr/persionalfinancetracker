@@ -16,8 +16,11 @@ import {
   TextField,
   MenuItem,
   IconButton,
+  Grid,
+  Box,
+  Typography,
 } from '@mui/material';
-import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
+import { Edit as EditIcon, Delete as DeleteIcon, FilterList as FilterIcon } from '@mui/icons-material';
 import { useFinance } from '../context/FinanceContext';
 import { toast } from 'react-toastify';
 
@@ -41,6 +44,12 @@ const Transactions = () => {
     useFinance();
   const [open, setOpen] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState(null);
+  const [filters, setFilters] = useState({
+    startDate: '',
+    endDate: '',
+    type: '',
+    category: '',
+  });
   const [formData, setFormData] = useState({
     type: 'expense',
     amount: '',
@@ -48,6 +57,35 @@ const Transactions = () => {
     date: new Date().toISOString().split('T')[0],
     note: '',
   });
+
+  // Filter transactions based on selected criteria
+  const filteredTransactions = state.transactions.filter((transaction) => {
+    const matchesStartDate = !filters.startDate || transaction.date >= filters.startDate;
+    const matchesEndDate = !filters.endDate || transaction.date <= filters.endDate;
+    const matchesType = !filters.type || transaction.type === filters.type;
+    const matchesCategory = !filters.category || transaction.category === filters.category;
+    
+    return matchesStartDate && matchesEndDate && matchesType && matchesCategory;
+  });
+
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const clearFilters = () => {
+    setFilters({
+      startDate: '',
+      endDate: '',
+      type: '',
+      category: '',
+    });
+  };
+
+  const hasActiveFilters = filters.startDate || filters.endDate || filters.type || filters.category;
 
   const handleOpen = (transaction = null) => {
     if (transaction) {
@@ -106,14 +144,88 @@ const Transactions = () => {
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => handleOpen()}
-        sx={{ mb: 2 }}
-      >
-        Add Transaction
-      </Button>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleOpen()}
+        >
+          Add Transaction
+        </Button>
+        <Typography variant="body2" color="text.secondary">
+          Showing {filteredTransactions.length} of {state.transactions.length} transactions
+        </Typography>
+      </Box>
+
+      {/* Filter Section */}
+      <Paper sx={{ p: 2, mb: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+          <FilterIcon sx={{ mr: 1 }} />
+          <Typography variant="h6">Filters</Typography>
+        </Box>
+        <Grid container spacing={2}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
+            <TextField
+              fullWidth
+              label="Start Date"
+              name="startDate"
+              type="date"
+              value={filters.startDate}
+              onChange={handleFilterChange}
+              InputLabelProps={{ shrink: true }}
+            />
+          </Grid>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
+            <TextField
+              fullWidth
+              label="End Date"
+              name="endDate"
+              type="date"
+              value={filters.endDate}
+              onChange={handleFilterChange}
+              InputLabelProps={{ shrink: true }}
+            />
+          </Grid>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
+            <TextField
+              select
+              fullWidth
+              label="Type"
+              name="type"
+              value={filters.type}
+              onChange={handleFilterChange}
+            >
+              <MenuItem value="">All Types</MenuItem>
+              <MenuItem value="income">Income</MenuItem>
+              <MenuItem value="expense">Expense</MenuItem>
+            </TextField>
+          </Grid>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
+            <TextField
+              select
+              fullWidth
+              label="Category"
+              name="category"
+              value={filters.category}
+              onChange={handleFilterChange}
+            >
+              <MenuItem value="">All Categories</MenuItem>
+              {categories.map((category) => (
+                <MenuItem key={category} value={category}>
+                  {category}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+        </Grid>
+        {hasActiveFilters && (
+          <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
+            <Button variant="outlined" onClick={clearFilters}>
+              Clear Filters
+            </Button>
+          </Box>
+        )}
+      </Paper>
 
       <TableContainer component={Paper}>
         <Table>
@@ -128,7 +240,7 @@ const Transactions = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {state.transactions.map((transaction) => (
+            {filteredTransactions.map((transaction) => (
               <TableRow key={transaction.id}>
                 <TableCell
                   sx={{

@@ -60,9 +60,9 @@ const Profile = () => {
   const stats = calculateLifetimeStats();
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
+    <Container maxWidth="md" sx={{ py: 4 }}>
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        <Grid item size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
               <Typography variant="h5">Profile</Typography>
@@ -77,7 +77,7 @@ const Profile = () => {
             {isEditing ? (
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid item size={{ xs: 12 }}>
                     <TextField
                       fullWidth
                       label="Name"
@@ -87,7 +87,7 @@ const Profile = () => {
                       required
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item size={{ xs: 12 }}>
                     <TextField
                       fullWidth
                       label="Email"
@@ -98,7 +98,7 @@ const Profile = () => {
                       required
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item size={{ xs: 12 }}>
                     <TextField
                       select
                       fullWidth
@@ -115,7 +115,7 @@ const Profile = () => {
                       ))}
                     </TextField>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item size={{ xs: 12 }}>
                     <Button type="submit" variant="contained" color="primary">
                       Save Changes
                     </Button>
@@ -124,19 +124,19 @@ const Profile = () => {
               </form>
             ) : (
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid item size={{ xs: 12 }}>
                   <Typography variant="subtitle1" color="text.secondary">
                     Name
                   </Typography>
                   <Typography variant="body1">{state.user.name}</Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item size={{ xs: 12 }}>
                   <Typography variant="subtitle1" color="text.secondary">
                     Email
                   </Typography>
                   <Typography variant="body1">{state.user.email}</Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item size={{ xs: 12 }}>
                   <Typography variant="subtitle1" color="text.secondary">
                     Default Currency
                   </Typography>
@@ -147,7 +147,7 @@ const Profile = () => {
           </Paper>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Lifetime Statistics
