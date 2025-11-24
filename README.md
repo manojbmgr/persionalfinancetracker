@@ -1,195 +1,200 @@
 # Personal Finance Tracker
-A React-based web application for tracking personal finances, built with Material-UI and modern React practices.
+
+A full-stack Next.js application for tracking personal finances with MySQL database integration, user authentication, and comprehensive financial management features.
+
 ## Features
-- Track income and expenses
-- Visualize financial data with charts
-- Responsive design for all devices
-- Modern and intuitive user interface
-- Real-time data updates
+
+- 🔐 **User Authentication**: Secure login and registration system
+- 💰 **Transaction Management**: Add, edit, and delete income and expense transactions
+- 📊 **Dashboard**: Visual charts and statistics for financial overview
+- 💵 **Budget Tracking**: Set and monitor budgets by category
+- 📈 **Analytics**: Monthly spending trends and category-wise expense breakdown
+- 👤 **User Profile**: Manage profile information and currency preferences
+- 📱 **Responsive Design**: Works seamlessly on all devices
+
+## Tech Stack
+
+- **Frontend**: Next.js 14, React 19, Material-UI
+- **Backend**: Next.js API Routes
+- **Database**: MySQL with mysql2
+- **Authentication**: JWT (JSON Web Tokens)
+- **Charts**: Recharts
+- **Styling**: Material-UI (MUI)
+
 ## Prerequisites
+
 Before you begin, ensure you have the following installed:
-- Node.js (v14.0.0 or higher)
-- npm (v6.0.0 or higher)
+
+- Node.js (v18.0.0 or higher)
+- npm (v9.0.0 or higher)
+- MySQL (v8.0 or higher)
+
 ## Installation
-1. Clone the repository:
-```bash
-git clone https://github.com/manojbmgr/persionalfinancetracker
-cd persionalfinancetracker
-```
-2. Install dependencies:
-```bash
-npm install
-```
-This will install all required dependencies including:
-- React
-- Material-UI (@mui/material)
-- Material-UI Icons (@mui/icons-material)
-- Emotion (@emotion/react, @emotion/styled)
-- React Router DOM
-- Recharts
-- React Toastify
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/manojbmgr/persionalfinancetracker
+   cd persionalfinancetracker
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Set up the database:**
+   - Create a MySQL database
+   - Run the SQL schema file:
+     ```bash
+     mysql -u root -p < database/schema.sql
+     ```
+
+4. **Configure environment variables:**
+   - Copy `.env.example` to `.env`:
+     ```bash
+     cp .env.example .env
+   ```
+   - Update `.env` with your database credentials:
+     ```
+     DB_HOST=localhost
+     DB_USER=root
+     DB_PASSWORD=your_password
+     DB_NAME=personal_finance_tracker
+     JWT_SECRET=your-secret-key-change-in-production
+     ```
+
 ## Running the Application
-1. Start the development server:
-```bash
-npm start
-```
-2. Open your browser and navigate to:
-```
-http://localhost:3000
-```
+
+1. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+
+2. **Open your browser and navigate to:**
+   ```
+   http://localhost:3000
+   ```
+
+3. **For production build:**
+   ```bash
+   npm run build
+   npm start
+   ```
+
 ## Project Structure
+
 ```
 persionalfinancetracker/
-├── public/
-│   ├── index.html
-│   └── ...
-├── src/
-│   ├── components/
-│   │   ├── Header.js
-│   │   ├── Dashboard.js
-│   │   ├── TransactionForm.js
-│   │   └── TransactionList.js
-│   ├── App.js
-│   ├── index.js
-│   └── ...
-├── package.json
-└── README.md
+├── components/          # React components
+│   ├── Dashboard.js
+│   ├── Transactions.js
+│   ├── Budgets.js
+│   ├── Profile.js
+│   ├── Login.js
+│   ├── Register.js
+│   ├── Header.js
+│   ├── Footer.js
+│   └── Layout.js
+├── contexts/           # React contexts
+│   ├── AuthContext.js
+│   └── FinanceContext.js
+├── pages/              # Next.js pages and API routes
+│   ├── api/           # API endpoints
+│   │   ├── auth/
+│   │   ├── transactions/
+│   │   ├── budgets/
+│   │   └── user/
+│   ├── index.js       # Dashboard page
+│   ├── transactions.js
+│   ├── budgets.js
+│   ├── profile.js
+│   ├── login.js
+│   └── register.js
+├── lib/               # Utility libraries
+│   ├── db.js         # Database connection
+│   └── auth.js       # Authentication utilities
+├── utils/             # Helper functions
+│   └── api.js        # API client
+├── styles/            # Global styles
+│   └── globals.css
+├── database/          # Database schema
+│   └── schema.sql
+└── public/            # Static assets
 ```
-## Dependencies
-The main dependencies used in this project are:
-```json
-{
-  "@emotion/react": "^11.14.0",
-  "@emotion/styled": "^11.11.0",
-  "@mui/material": "^7.1.1",
-  "@mui/icons-material": "^5.0.0",
-  "react": "^19.1.0",
-  "react-dom": "^19.1.0",
-  "react-router-dom": "^7.6.2",
-  "react-scripts": "5.0.1",
-  "react-toastify": "^11.0.5",
-  "recharts": "^2.15.3"
-}
-```
-## Available Scripts
-In the project directory, you can run:
-- `npm start` - Runs the app in development mode
-- `npm test` - Launches the test runner
-- `npm run build` - Builds the app for production
-- `npm run eject` - Ejects from Create React App
+
+## API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - Login user
+- `POST /api/auth/logout` - Logout user
+- `GET /api/auth/me` - Get current user
+
+### Transactions
+- `GET /api/transactions` - Get all transactions (with optional filters)
+- `POST /api/transactions` - Create a new transaction
+- `GET /api/transactions/[id]` - Get a specific transaction
+- `PUT /api/transactions/[id]` - Update a transaction
+- `DELETE /api/transactions/[id]` - Delete a transaction
+
+### Budgets
+- `GET /api/budgets` - Get all budgets
+- `POST /api/budgets` - Create or update a budget
+- `GET /api/budgets/[category]` - Get budget for a category
+- `DELETE /api/budgets/[category]` - Delete a budget
+
+### User
+- `GET /api/user/profile` - Get user profile
+- `PUT /api/user/profile` - Update user profile
+
+## Features in Detail
+
+### Dashboard
+- View total income, expenses, savings, and remaining budget
+- Monthly spending trends with bar charts
+- Category-wise expense breakdown with pie charts
+- Today's expenses list
+- Date range filtering
+
+### Transactions
+- Add, edit, and delete transactions
+- Filter by date range, type, and category
+- Support for income and expense types
+- Multiple categories (Salary, Food, Housing, etc.)
+
+### Budgets
+- Set budgets for different categories
+- Visual progress indicators
+- Budget exceeded warnings
+- Monthly budget tracking
+
+### Profile
+- Update name, email, and currency preference
+- View lifetime statistics
+- Support for multiple currencies (₹, $, €, £, ¥)
+
+## Security Features
+
+- Password hashing with bcrypt
+- JWT-based authentication
+- Protected API routes
+- SQL injection prevention with parameterized queries
+- Input validation on both client and server
+
 ## Contributing
+
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.
-## Acknowledgments
-- Material-UI for the component library
-- Create React App for the project setup
-- Recharts for the charting capabilities
-## Technical Documentation
-### Project Architecture
-The application follows a component-based architecture using React's modern features and best practices. Here's a detailed breakdown of the implementation:
-### Core Components
-#### 1. App.js
-- **Purpose**: Main application component that sets up routing and global context
-- **Key Features**:
-  - Uses `BrowserRouter` for navigation
-  - Implements `TransactionProvider` context for global state management
-  - Handles routing between Dashboard and TransactionList components
-#### 2. Components/Header.js
-- **Purpose**: Navigation and app header component
-- **Implementation Details**:
-  - Uses Material-UI's `AppBar` and `Toolbar` components
-  - Implements responsive navigation using `useNavigate` hook
-  - Includes dynamic title updates based on current route
-#### 3. Components/Dashboard.js
-- **Purpose**: Main dashboard showing financial overview
-- **Key Features**:
-  - Uses `useContext` hook to access transaction data
-  - Implements Recharts for data visualization
-  - Calculates and displays:
-    - Total balance
-    - Income vs Expenses
-    - Transaction history
-  - Responsive design using Material-UI's Grid system
-#### 4. Components/TransactionForm.js
-- **Purpose**: Form for adding new transactions
-- **Implementation Details**:
-  - Uses controlled components with React state
-  - Implements form validation
-  - Uses `useContext` to access transaction context
-  - Features:
-    - Transaction type selection (Income/Expense)
-    - Amount input with validation
-    - Category selection
-    - Date picker
-    - Description field
-#### 5. Components/TransactionList.js
-- **Purpose**: Displays list of transactions
-- **Key Features**:
-  - Uses Material-UI's `Table` components
-  - Implements sorting and filtering
-  - Uses `useContext` for data access
-  - Features:
-    - Sortable columns
-    - Filter by transaction type
-    - Search functionality
-    - Pagination
-### State Management
-#### TransactionContext
-- **Location**: `src/context/TransactionContext.js`
-- **Purpose**: Global state management for transactions
-- **Implementation**:
-  - Uses React's Context API
-  - Implements `useReducer` for state management
-  - Provides actions for:
-    - Adding transactions
-    - Deleting transactions
-    - Updating transactions
-    - Filtering transactions
-### Custom Hooks
-#### 1. useTransactions
-- **Purpose**: Custom hook for transaction operations
-- **Features**:
-  - Transaction CRUD operations
-  - Data filtering
-  - Statistics calculation
-  - Error handling
-#### 2. useLocalStorage
-- **Purpose**: Persists transaction data in localStorage
-- **Implementation**:
-  - Uses `useEffect` for data persistence
-  - Handles data serialization/deserialization
-  - Provides fallback for data loading
-### Styling
-- **Approach**: Uses Material-UI's styling solution
-- **Implementation**:
-  - Theme customization
-  - Responsive design
-  - Custom component styling
-### Data Flow
-1. **User Input** → TransactionForm
-2. **Form Submission** → TransactionContext
-3. **State Update** → All subscribed components
-4. **Data Persistence** → LocalStorage
-### Error Handling
-- Form validation
-- API error handling
-- Data persistence error handling
-- User feedback using React-Toastify
-### Performance Optimizations
-- Memoization using `useMemo` and `useCallback`
-- Lazy loading of components
-- Efficient re-rendering
-- Optimized data structures
-### Testing
-- Component testing using Jest and React Testing Library
-- Context testing
-- Custom hooks testing
-- Integration testing
 
-### Vercel URL
-[https://persionalfinancetracker-git-master-manojbmgr-gmailcoms-projects.vercel.app/](https://persionalfinancetracker-git-master-manojbmgr-gmailcoms-projects.vercel.app/)
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Material-UI for the component library
+- Next.js for the framework
+- Recharts for the charting capabilities
