@@ -1,7 +1,4 @@
--- Personal Finance Tracker Database Schema
--- Create database
-CREATE DATABASE IF NOT EXISTS personal_finance_tracker CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE personal_finance_tracker;
+
 
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
